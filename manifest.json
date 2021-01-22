@@ -1,0 +1,20 @@
+{
+    "name": "Webflow CST Extension",
+    "version": "1.0",
+    "description": "A Chrome extension to help the Webflow CST team handle user conversations",
+    "permissions": ["declarativeContent","tabs", "storage"],
+    "background": {
+        "scripts": ["background.js"],
+        "persistent": false
+    },
+    "browser_action": {},
+    "content_scripts": [
+        {
+          "matches": ["https://secure.helpscout.net/conversation/*"],
+          "css": ["contentStyleSheet.css"],
+          "js": ["contentScript.js"]
+        }
+      ],
+    "options_page": "options.html", 
+    "manifest_version": 2
+  }
