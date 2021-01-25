@@ -288,7 +288,7 @@ function loadDetails() {
                     //selecting all inserted blocks from the dropdown
                     loadedDetails.forEach(email => {
                         //checking each inserted block to see if it contains the webflow user email
-                        if(email.innerText.includes(userEmail)) {
+                        if(email.innerText.includes(userEmail) && email.innerText.includes('Email:')) {
                             email.append(insertAdminLink);
                         }
                     });
