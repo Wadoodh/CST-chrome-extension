@@ -24,8 +24,8 @@
 }
 
 .dd-block-text {
-    min-height: 20px;
-	word-break: break-word;
+    min-height: 30px;
+    word-break: break-word;
 }
 
 .dd-wrap {
@@ -292,4 +292,16 @@
 
 .admin-link:focus {
     text-decoration: none;
+}
+
+.custom-textarea {
+    position: sticky;
+    padding: 10px;
+    top: 16px;
+    width: 100%;
+    max-width: 80%;
+    margin-left: 12px;
+    margin-top: 12px;
+    min-height: 300px;
+    resize: vertical;
 }

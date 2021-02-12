@@ -11,7 +11,15 @@ window.addEventListener('click', (event) => {
 });
 
 window.addEventListener('keydown', (event) => {
-    if((event.keyCode === 74 || event.keyCode === 75) && event.target.className.includes("redactor_redactor") || event.target.className.includes("response-input")) {
+    console.log(event);
+    if(
+        (event.keyCode === 74 || event.keyCode === 75) && 
+        event.target.className.includes("redactor_redactor") || 
+        event.target.className.includes("response-input") || 
+        event.target.className.includes("custom-textarea") || 
+        event.target.className.includes("textboxlist") ||
+        event.target.className.includes("redactor_input")
+    ) {
         return;
     } else if(event.keyCode === 74 && window.location.href.includes("https://secure.helpscout.net/conversation/")) {
         setTimeout(loadDetails, 1000);
@@ -22,11 +30,12 @@ window.addEventListener('keydown', (event) => {
 
 function loadDetails() {
     /*********************************************
-    ********* HELPSCOUT CUSTOM FIELDS ************
+    ********* HELPSCOUT CUSTOM ELEMENTS **********
     *********************************************/
 
     let customFields = document.getElementById('custom-fields-container');
     let isVerified = document.getElementById('custom-verified');
+    let sidebar = document.querySelector('.sidebar-left');
 
     /*********************************************
     ********* VERIFY DROPDOWN & VARIABLES ********
@@ -45,7 +54,11 @@ function loadDetails() {
     let toolTipPop = document.createElement('div');
     let toolTipContent = document.createElement('div');
     let tooltipIndicator = document.createElement('div');
-    let toolTipData = ["If details don't appear, refresh page with CMD + R", "OPTION + E to open/close conversation details", "Details may not be shown on longer conversations (Helpscout conflict)", "Disable other unnecessary extensions to avoid conflicts and unexpected behavior", "An Admin button will appear next to the email if the email matches the Webflow account email"];
+    let textArea = document.createElement('textarea');
+    textArea.classList.add('custom-textarea');
+    sidebar ? sidebar.appendChild(textArea) : false;
+    //sidebar.appendChild(textArea);
+    let toolTipData = ["If details don't appear, refresh page with CMD + R", "OPTION + E to open/close conversation details", "Details may not be shown on longer conversations (Helpscout conflict)", "Disable other unnecessary extensions to avoid conflicts and unexpected behavior", "An Admin button will appear next to the email if the email matches the Webflow account email", "Use the textarea box on the left side to gather details on longer conversations. Reloading the page will remove any notes in this area"];
     let toolTipTipsHtml = "";
 
     let hsPageWrap = document.getElementById('js-wrap');
@@ -247,10 +260,15 @@ function loadDetails() {
             !value.includes("Selected: Client billing") && 
             !value.includes("Selected: Neither") && 
             !value.includes("Basic Hosting") && 
+            !value.includes("Did this help?") && 
+            !value.includes("Go back to the main menu") && 
             !value.includes("Technical issue with the Webflow Designer/Editor") && 
+            !value.includes("Selected: Advanced publishing options") && 
+            !value.includes("Selected: Clarify question") && 
             value.slice(value.match(regexSplitter)[0].length + 1).trim() !== 'No' && 
             value.slice(value.match(regexSplitter)[0].length + 1).trim() !== 'no' &&
-            value.slice(value.match(regexSplitter)[0].length + 1).trim() !== 'Yes'
+            value.slice(value.match(regexSplitter)[0].length + 1).trim() !== 'Yes' &&
+            value.slice(value.match(regexSplitter)[0].length + 1).trim() !== 'ok'
             ) {
                 html+=`
                 <p class="dd-block-text">
@@ -278,17 +296,16 @@ function loadDetails() {
     
             //checking all h4 for the email after the api call
             findAdminLink.forEach(val => {
-                //console.log(val);
                 if(val.innerHTML.includes('https://webflow.com/admin/user')) {
                     getAdminLink = val.getElementsByTagName('a')[0].href;
-                    userEmail = getAdminLink.slice(getAdminLink.match(/[^=]*/)[0].length + 1);
-
+                    userEmail = getAdminLink.slice(getAdminLink.match(/[^=]*/)[0].length + 1).toLowerCase();
+                    
                     insertAdminLink.href = getAdminLink;
 
                     //selecting all inserted blocks from the dropdown
                     loadedDetails.forEach(email => {
                         //checking each inserted block to see if it contains the webflow user email
-                        if(email.innerText.includes(userEmail) && email.innerText.includes('Email:')) {
+                        if(email.innerText.toLowerCase().includes(userEmail) && email.innerText.includes('Email:')) {
                             email.append(insertAdminLink);
                         }
                     });
