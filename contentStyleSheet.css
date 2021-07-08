@@ -6,6 +6,11 @@
     z-index: 0 !important;
 }
 
+#sidebar-rt {
+    position: sticky !important;
+    top: 5px;
+}
+
 /*********************************************
 *********** HELPSCOUT CLASSES END ************
 *********************************************/

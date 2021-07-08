@@ -11,14 +11,15 @@ window.addEventListener('click', (event) => {
 });
 
 window.addEventListener('keydown', (event) => {
-    console.log(event);
+    //console.log(event.target);
     if(
         (event.keyCode === 74 || event.keyCode === 75) && 
         event.target.className.includes("redactor_redactor") || 
         event.target.className.includes("response-input") || 
         event.target.className.includes("custom-textarea") || 
         event.target.className.includes("textboxlist") ||
-        event.target.className.includes("redactor_input")
+        event.target.className.includes("redactor_input") ||
+        event.target.id === 'tag'
     ) {
         return;
     } else if(event.keyCode === 74 && window.location.href.includes("https://secure.helpscout.net/conversation/")) {
